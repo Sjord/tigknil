@@ -1,10 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 for path in "$@"
 do
-    GIT_URL=$(git -C $(dirname "$path") remote get-url origin)
-    RELATIVE_PATH=$(git -C $(dirname "$path") ls-files --full-name "$path")
-    COMMIT=$(git -C $(dirname "$path") rev-parse HEAD)
-    HTTPS_URL=$(sed -e 's~:~/~' -e 's~git@~https://~' -e 's~\.git$~~' <<< "$GIT_URL")
+    DIR=`dirname "$path"`
+    GIT_URL=`git -C "$DIR" remote get-url origin`
+    RELATIVE_PATH=`git -C "$DIR" ls-files --full-name "$path"`
+    COMMIT=`git -C "$DIR" rev-parse HEAD`
+    HTTPS_URL=`echo $GIT_URL | sed -e 's~:~/~' -e 's~git@~https://~' -e 's~\.git$~~'`
     echo "$HTTPS_URL/blob/$COMMIT/$RELATIVE_PATH"
 done
