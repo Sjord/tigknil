@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+TIGKNIL="$PWD/tigknil"
+
+# Setup temporary git directory to test on
+TEST_DIR=$(mktemp -d)
+cd "$TEST_DIR"
+git init
+git config user.name "test_tigknil"
+git config user.email "test_tigknil@test_tigknil"
+
+mkdir testdir
+touch test.txt
+touch testdir/nested.txt
+git add test.txt testdir/nested.txt
+git commit --quiet -m 'Test commit'
+git remote add origin "git@github.com:Sjord/tigknil.git"
+COMMIT=$(git rev-parse HEAD)
+
+
+# Test cases
+git remote set-url origin "git@github.com:Sjord/tigknil.git"
+diff <($TIGKNIL test.txt) - <<< "https://github.com/Sjord/tigknil/blob/$COMMIT/test.txt"
+
+# Done
+echo Tests passed
