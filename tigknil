@@ -3,8 +3,9 @@
 for path in "$@"
 do
     DIRECTORY=$(dirname "$path")
+    FILENAME=$(basename "$path")
     GIT_URL=$(git -C "$DIRECTORY" remote get-url origin)
-    RELATIVE_PATH=$(git -C "$DIRECTORY" ls-files --full-name "$path")
+    RELATIVE_PATH=$(git -C "$DIRECTORY" ls-files --full-name "$FILENAME")
     COMMIT=$(git -C "$DIRECTORY" rev-parse HEAD)
     HTTPS_URL=$(sed -e 's~:~/~' -e 's~git@~https://~' -e 's~\.git$~~' <<< "$GIT_URL")
     echo "$HTTPS_URL/blob/$COMMIT/$RELATIVE_PATH"

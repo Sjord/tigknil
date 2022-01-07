@@ -22,6 +22,7 @@ COMMIT=$(git rev-parse HEAD)
 # Test cases
 git remote set-url origin "git@github.com:Sjord/tigknil.git"
 diff <($TIGKNIL test.txt) - <<< "https://github.com/Sjord/tigknil/blob/$COMMIT/test.txt"
+diff <($TIGKNIL testdir/nested.txt) - <<< "https://github.com/Sjord/tigknil/blob/$COMMIT/testdir/nested.txt"
 
 # Done
 echo Tests passed
