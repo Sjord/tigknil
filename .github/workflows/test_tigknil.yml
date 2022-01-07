@@ -12,5 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Run ShellCheck
+        uses: bewuethr/shellcheck-action@v2.1.0
       - name: test_tigknil
         run: ./test_tigknil
